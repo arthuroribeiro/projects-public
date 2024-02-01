@@ -14,6 +14,6 @@ To update the .pbix file with your data you'll need a user with read access in t
 The next step is to configure the Power Query parameters, refresh the dataset and that's it!
 
 Power Query Parameters:
-- pr_snowflake_acct: Snowflake account in the following format: <snowflake-account>.snowflakecomputing.com
+- pr_snowflake_acct: Snowflake account in the following format: \<snowflake-account\>.snowflakecomputing.com
 - pr_snowflake_db: Database with the ACCOUNT_USAGE views
 - pr_snowflake_warehouse: Snoflake Warehouse (Eg.: COMPUTE_WH)
