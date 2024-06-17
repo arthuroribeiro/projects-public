@@ -62,6 +62,7 @@ def build_url(config_api: BreweriesConfig) -> str:
     key_prefix=["bronze"],
     name="raw_breweries",
     metadata={"source_api": MetadataValue.url("https://openbrewerydb.org/")},
+    compute_kind="Python",
     tags={"dagster/storage_kind": "JSON"},
     io_manager_key="io_manager_text",
     retry_policy=RetryPolicy(max_retries=3, delay=30, backoff=Backoff.LINEAR),  # 30s
@@ -121,6 +122,7 @@ def bronze_raw_breweries(
     metadata={"partition_expr": "country"},
     tags={"dagster/storage_kind": "Delta"},
     io_manager_key="io_manager_delta",
+    compute_kind="Pandas",
 )
 def silver_dim_breweries(
     context: AssetExecutionContext,
@@ -152,6 +154,15 @@ def silver_dim_breweries(
         }
     )
 
+    # Removing additional spaces in the string columns (trim/strip)
+    list_to_strip = silver_breweries.select_dtypes(include=["string"]).columns
+    silver_breweries[list_to_strip] = silver_breweries[list_to_strip].apply(
+        lambda x: x.str.strip()
+    )
+
+    # Checking if the ID is unique
+    assert silver_breweries["id"].drop_duplicates().shape[0] ==  silver_breweries.shape[0], "Duplicated ID(s)! Check the file!"  # fmt: skip
+
     return silver_breweries
 
 
@@ -162,6 +173,7 @@ def silver_dim_breweries(
     name="vw_breweries_agg",
     tags={"dagster/storage_kind": "Delta"},
     io_manager_key="io_manager_delta",
+    compute_kind="Pandas",
 )
 def gold_dim_breweries(
     context: AssetExecutionContext, silver_dim_breweries: pd.DataFrame
