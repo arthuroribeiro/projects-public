@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "breweries-proj"
+version = "0.1.0"
+description = ""
+authors = ["Arthur Ribeiro"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+dagster = "^1.7.10"
+dagster-webserver = "^1.7.10"
+deltalake = "^0.18.1"
+pandas = "^2.2.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.dagster]
+module_name = "breweries_data"
