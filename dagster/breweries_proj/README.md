@@ -23,7 +23,7 @@ Assets* genereted by the pipeline:
 - Language: Python
 - Storage: Delta Lake (Local)
 
-Dagster was the tool chosen for this project due to its simplicity of implementation and development, as well as features that increase quality in a data enviroment, such as asset catalog, object dependency and io managers to standardize data input and output. ETL with Pandas was chosen by the same reasons plus the ingregration with Delta Lake library, which was used due to all the benefits of Lakehouse like Time Travel and ACID operations.
+Dagster was the tool chosen for this project due to its simplicity of implementation and development, as well as features that increase quality in a data enviroment, such as asset catalog, object dependency and io managers to standardize data input and output. ETL with Pandas was chosen by the same reasons plus the integration with Delta Lake library, which was used due to all the benefits of Lakehouse like Time Travel and ACID operations.
 
 The main tradeoffs in this project/architeture are that Pandas is not the best option for work with big/medium workloads, the Dagster's deployment as service will have all the Dagster's components in the same machine including the jobs execution, so the environment will be less efficient as the number of pipelines grows, and the utilization of delta-rs (Delta Lake library) that dont have all the features of Delta library for Spark, just for compartion the Delta library is in the 3.2.0 version and the delta-rs in the 0.18.1 version.
 
